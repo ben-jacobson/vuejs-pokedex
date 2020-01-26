@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Vue JS Pokedex</title>
+    <meta name="author" content="Ben Jacobson">
+    <meta name="description" content="Pokedex">
+    <meta name="keywords" content="Pokedex, Pokemon">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <h1 class='white-header'>Pokedex</h1>        
+    </nav>
+      
+
+    <div class="container">
+        <div class="row">
+            <div class="infobox vertical-margin-40px col-sm-12">
+                <div class='row'>
+                    <div class='col-sm-4'>
+                        <img class='infobox-img vertical-margin-40px' src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png'>
+                    </div>
+                    <div class='col-sm-8 infobox-description vertical-margin-40px'>
+                        <table class='pokemon-stats'>                                           
+                            <tr>
+                                <td class='stat-labels'>Id</td>
+                                <td class='stat-labels'>Type</tdclass='stat-labels'>
+                                <td class='stat-labels'>Weight</td class='stat-labels'>
+                                <td class='stat-labels'>Height</td class='stat-labels'>
+                                <td class='stat-labels'>Abilities</td>
+                            </tr>
+                            <tr>
+                                <td class='stat-text'>#001</td class='stat-text'>
+                                <td class='stat-text'>Grass, Poison</td class='stat-text'>
+                                <td class='stat-text'>5lb</td>
+                                <td class='stat-text'>2'3"</td class='stat-text'>     
+                                <td class='stat-text'>Overgrow, Chlorophyll</td> 
+                            </tr>                            
+                        </table>
+
+                        <h2 class="pokemon-name">Bulbasaur</h2>                                 
+
+        
+                            <p>
+                            Bulbasaur can be seen napping in bright sunlight. There is a seed on its back. By soaking up the sun’s rays, the seed grows progressively larger
+                        </p> 
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="listbox col-sm-12">
+                <div id='pokemon-cards' class='row'>
+                    <poke-card
+                        v-for="pokemon in ready_to_render_pokemon"
+                        v-bind:key="pokemon.id"
+                        v-bind:pokemon="pokemon">
+                    </poke-card>                                                                                                                  
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end layout-->
+
+    <div id="pokedex"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> <!-- using development version -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    <script src="./pokedex.js"></script>
+</body>
+
+</html>
