@@ -42,7 +42,9 @@ h1.white-header {
 
 /* pokemon card styling */
 
-.pokecard {}
+.pokecard {
+    display: inline;
+}
 
 .pokemon-name {
     display: inline;

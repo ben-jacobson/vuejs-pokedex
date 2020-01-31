@@ -56,28 +56,15 @@
             </div>
         </div>
         <div id='cards' class="row">
-            <div class="swiper-container listbox col-sm-12">
-                <div class="swiper-container">
-                    <!-- Additional required wrapper -->
+            <div class="listbox col-sm-12">
+                <div id='pokemon-cards' class="swiper-container">
                     <div class="swiper-wrapper">
-                        <!-- Slides -->
-                        <div class="swiper-slide"> 
-                            <div id='pokemon-cards' class='row'>
-                                <poke-card 
-                                    v-for="pokemon in ready_to_render_pokemon" 
-                                    v-bind:key="pokemon.id"
-                                    v-bind:pokemon="pokemon">
-                                </poke-card>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div id='pokemon-cards' class='row'></div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div id='pokemon-cards' class='row'></div>
-                        </div>
+                        <poke-card 
+                            v-for="pokemon in ready_to_render_pokemon" 
+                            v-bind:key="pokemon.id"
+                            v-bind:pokemon="pokemon">
+                        </poke-card>     
                     </div>
-                    <!-- If we need navigation buttons -->
                     <div class="swiper-button-prev"></div>
                     <div class="swiper-button-next"></div>
                 </div>                           

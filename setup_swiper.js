@@ -1,8 +1,10 @@
 $(document).ready(function () {
     //initialize swiper when document ready
     var mySwiper = new Swiper ('.swiper-container', {
-        // Optional parameters
         direction: 'horizontal',
+        slidesPerView: 3,
+        spaceBetween: 30,
+
         loop: true,
         navigation: {
             nextEl: '.swiper-button-next',
