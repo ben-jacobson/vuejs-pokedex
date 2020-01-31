@@ -1,4 +1,4 @@
-/* structural styling */ 
+/* structural styling */
 
 body {
     background: #30343F;
@@ -9,13 +9,9 @@ p, h1, h2, h3, h4, h4, h5, h6 {
     color: #232C33;
 }
 
-p {
+p {}
 
-}
-
-h1, h2, h3, h4, h4, h5, h6 {
-
-}
+h1, h2, h3, h4, h4, h5, h6 {}
 
 h1.white-header {
     color: #FFFFFF;
@@ -28,59 +24,48 @@ h1.white-header {
 }
 
 .vertical-margin-40px {
-    margin-top: 20px; 
-    margin-bottom: 20px;     
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
-.infobox {
+.infobox {}
 
-}
-
-.infobox, .listbox { 
-
-    background-color: #FFFFFF; 
-
+.infobox, .listbox {
+    background-color: #FFFFFF;
     border-radius: 10px;
     padding-top: 20px;
     padding-bottom: 20px;
-
     padding-left: 40px;
-    padding-right: 40px; 
+    padding-right: 40px;
+    margin-bottom: 40px;
 }
 
 /* pokemon card styling */
 
-.pokecard {
-
-}
+.pokecard {}
 
 .pokemon-name {
-    display: inline; 
+    display: inline;
 }
-
 
 .pokemon-description {
     margin-top: 20px;
 }
 
-
 /* styling pokemon information box */
 
 .infobox-img {
-    max-width: 100%; 
+    max-width: 100%;
     width: 100%;
-    height: auto; 
-
+    height: auto;
     border: 1px solid #ddd;
     border-radius: 5px;
     padding: 5px;
 }
 
-.infobox-description {
+.infobox-description {}
 
-}
-
-.pokemon-stats{
+.pokemon-stats {
     background-color: #2A60A6;
     padding: 20px;
     width: 100%;
@@ -96,42 +81,38 @@ h1.white-header {
 
 .stat-text {
     color: #ffffff;
-    padding: 10px;    
+    padding: 10px;
 }
-
 
 /* Styling of pokemon types */
 
-.name-and-type {
-    
-}
+.name-and-type {}
 
 b.poke-type {
     color: white;
 }
+
 div.poke-type {
-    display: inline; 
+    display: inline;
     float: right;
-
-    padding: 3px; 
-    line-height:10px; 
-
-    border-radius: 2px; 
-    -moz-border-radius: 2px; 
-    -webkit-border-radius: 2px; 
-    -khtml-border-radius: 2px; 
-    -icab-border-radius: 2px; 
+    padding: 3px;
+    line-height: 10px;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -khtml-border-radius: 2px;
+    -icab-border-radius: 2px;
     -o-border-radius: 2px;
-    text-align: center; 
-    font-size: 75%; 
-
-    margin: 2px; 
+    text-align: center;
+    font-size: 75%;
+    margin: 2px;
     margin-top: 4px;
 }
 
 div.grass-type {
-    background: #78C850; 
+    background: #78C850;
 }
+
 div.poison-type {
     background: #A040A0;
 }
@@ -143,9 +124,8 @@ div.poison-type {
 
 .btn-primary:hover {
     background-color: #D64646;
-    border-color: #702525;    
+    border-color: #702525;
 }
-
 
 /* Scrollbar styles */
 
@@ -165,4 +145,9 @@ div.poison-type {
 ::-webkit-scrollbar-thumb
 {
     background-color: #FFFFFF;
-}*/ 
+}*/
+
+.swiper-container {
+    width: 100%;
+    height: 100%;
+}
