@@ -11,7 +11,7 @@ Vue.component('poke-card', {
                             <div class="poke-type poison-type"><b class="poke-type">Poison</b></div>                        
                             <p class="card-text pokemon-description">{{ pokemon.description }}</p>                                    
                             <div class="text-center"><a href="#" class="btn btn-primary">More Info</a></div>
-                        </div>
+                        </div>                            
                     </div>
                 </div>                                    
             </div>
@@ -34,8 +34,13 @@ var pokemon_cards_vm = new Vue({
         first_gen_pokemon: [],  // to store all first 151 gen pokemon
     },   
 
-    created: function() {             
-        this.ajax_get_all_pokemon_listings();
+    created: function() {    
+        /* // create a blank array so that vue doesn't flip out when trying to render the empty list before AJAX requsts have finished 
+        for (let i = 0; i < this.max_pokemon; i++) {
+            this.first_gen_pokemon.push({id: i + 1});
+        } */
+
+        this.ajax_get_all_pokemon_listings();   
     },
 
     computed: {
@@ -50,12 +55,7 @@ var pokemon_cards_vm = new Vue({
     },
 
     methods: {
-        /*in_frame_boundary: function(id) {
-            return id >= this.x_pos && id < this.x_pos + this.max_cards_in_frame; 
-        },*/ 
-
         ajax_get_all_pokemon_listings: function() {
-            // no longer used, we instead use a function that runs the ajax requests of pokemon in the current frame, left and right frame.
             var vm = this;  // set this so that the promise has its own scoped copy of vm to work with after function has ended.                              
 
             // there is no API endpoint for retrieving a bulk of pokemon, you need to run individual requests. The rate limiter is generous enough at least
@@ -75,8 +75,4 @@ var pokemon_cards_vm = new Vue({
             }            
         },
     },    
-});
-
-var pokemon_info_vm = new Vue({
-
 });

@@ -5,6 +5,9 @@ $(document).ready(function () {
         slidesPerView: 3,
         spaceBetween: 30,
 
+        observer: true, 
+        observeParents: true, 
+
         loop: true,
         navigation: {
             nextEl: '.swiper-button-next',

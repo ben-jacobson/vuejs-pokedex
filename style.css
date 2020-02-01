@@ -5,6 +5,10 @@ body {
     /* Color scheme: https://coolors.co/ffcb32-2a60a6-f95453-30343f-ffffff */
 }
 
+img {
+    image-rendering: pixelated; /* We want to keep the 8-bit look of first gen pokemon */
+}
+
 p, h1, h2, h3, h4, h4, h5, h6 {
     color: #232C33;
 }
@@ -16,6 +20,14 @@ h1, h2, h3, h4, h4, h5, h6 {}
 h1.white-header {
     color: #FFFFFF;
     font-size: 2em;
+}
+
+.spinner-grow {
+    margin-top: 184px;  /* card is 400px tall, spinner is 32px tall 400 / 2 - 32 / 2*/
+}
+
+.card {
+    min-height: 400px;
 }
 
 .navbar {
@@ -151,5 +163,4 @@ div.poison-type {
 
 .swiper-container {
     width: 100%;
-    height: 100%;
 }
