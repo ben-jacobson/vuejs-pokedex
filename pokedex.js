@@ -1,10 +1,10 @@
-Vue.component('poke-card', {
+/* Vue.component('poke-card', {
     props: ['pokemon'], 
     template: ` 
             <div class="swiper-slide">
                 <div class="pokecard vertical-margin-40px col-sm-4">
                     <div class="card">
-                        <img class="card-img-top" :src="pokemon.sprites.front_default" alt="Bulbasaur">
+                        <img class="card-img-top" :src="pokemon.sprites.front_default" :alt="pokemon.name">
                         <div class="card-body">
                             <h5 class="card-title pokemon-name">#{{ pokemon.id }} {{ pokemon.name }}</h5>                                 
                             <div class="poke-type grass-type"><b class="poke-type">Grass</b></div>
@@ -16,7 +16,7 @@ Vue.component('poke-card', {
                 </div>                                    
             </div>
             `,
-});
+});*/ 
 
 var pokemon_cards_vm = new Vue({ 
 
@@ -35,31 +35,28 @@ var pokemon_cards_vm = new Vue({
     },   
 
     created: function() {    
-        /* // create a blank array so that vue doesn't flip out when trying to render the empty list before AJAX requsts have finished 
-        for (let i = 0; i < this.max_pokemon; i++) {
-            this.first_gen_pokemon.push({id: i + 1});
-        } */
-
         this.ajax_get_all_pokemon_listings();   
     },
 
-    computed: {
+    /* computed: {
         // Filters our all undefined pokemon while the data is loading asynchronously. Our ajax request below needs to fill the array in a random order and a lot of null ids are found in the first_gen_pokemon array prior to all data loading. The solution is to filter them out with this computed value.
-        ready_to_render_pokemon: function() {
+         ready_to_render_pokemon: function() {
             //var in_frame_boundary = this.in_frame_boundary;
 
             return this.first_gen_pokemon.filter(function(data) {                 
                 return data.id != undefined;// && in_frame_boundary(data.id);  // only return the items that are ready to load and are in the current frame.
             });
-        },        
-    },
+        }, 
+    }, */
 
     methods: {
         ajax_get_all_pokemon_listings: function() {
             var vm = this;  // set this so that the promise has its own scoped copy of vm to work with after function has ended.                              
 
             // there is no API endpoint for retrieving a bulk of pokemon, you need to run individual requests. The rate limiter is generous enough at least
-            for (let i = 1; i <= this.max_pokemon; i++) {                  
+            for (let i = 1; i <= this.max_pokemon; i++) {    
+                Vue.set(vm.first_gen_pokemon, i - 1, {id: i, loaded: false}); // pre-set an unloaded value
+
                 // axios returns the promise
                 var pokemon_data_promise = axios.get(this.api_endpoint + i + '/').then(function (response) {
                     return response.data;
@@ -70,6 +67,7 @@ var pokemon_cards_vm = new Vue({
                 // async to update the pokemon_data array, and ensure they are in the correct order. 
                 pokemon_data_promise.then(function(data) {
                     data.name = data.name.charAt(0).toUpperCase() + data.name.substring(1); // a quick way to upper case the first letter of the pokemon name
+                    data.loaded = true; // set a loaded flag
                     Vue.set(vm.first_gen_pokemon, data.id - 1, data);   // a common gotcha, vue cannot be reactive to changes to array array[index] = value; 
                 });
             }            

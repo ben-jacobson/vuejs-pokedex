@@ -30,6 +30,10 @@ h1.white-header {
     min-height: 400px;
 }
 
+.card-img-top {
+    min-height: 271px;
+}
+
 .navbar {
     background-color: #F95453;
     margin-bottom: 20px;
@@ -140,26 +144,6 @@ div.poison-type {
     background-color: #D64646;
     border-color: #702525;
 }
-
-/* Scrollbar styles */
-
-/*
-::-webkit-scrollbar-track
-{
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-    background-color: #F5F5F5;
-}
-
-::-webkit-scrollbar
-{
-	width: 6px;
-    background-color: #F5F5F5;
-}
-
-::-webkit-scrollbar-thumb
-{
-    background-color: #FFFFFF;
-}*/
 
 .swiper-container {
     width: 100%;
