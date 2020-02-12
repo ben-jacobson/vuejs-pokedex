@@ -15,6 +15,31 @@
 </head>
 
 <body>
+
+    <script type='text/x-template' id='pokemon-listview-card'>
+        <div class="swiper-slide">
+            <div class="pokecard vertical-margin-40px col-sm-4">
+                <div v-if='pokemon.loaded' class="card">
+                    <img class="card-img-top" :src="pokemon.sprites.front_default" :alt="pokemon.name">
+                    <div class="card-body">
+                        <h5 class="card-title pokemon-name">#{{ pokemon.id }} {{ pokemon.name }}</h5>                                 
+                        <div class="poke-type grass-type"><b class="poke-type">Grass</b></div>
+                        <div class="poke-type poison-type"><b class="poke-type">Poison</b></div>                        
+                        <p class="card-text pokemon-description">{{ pokemon.description }}</p>                                    
+                        <div class="text-center"><a href="#" class="btn btn-primary">More Info</a></div>
+                    </div>                            
+                </div>
+                <div v-else class="card">                            
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-grow text-primary" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>  
+                    </div>
+                </div>                                
+            </div>                                
+        </div> 
+    </script>
+
     <nav class="navbar navbar-expand-lg">
         <h1 class='white-header'>Pokedex</h1>
     </nav>
@@ -59,34 +84,7 @@
             <div class="listbox col-sm-12">
                 <div id='pokemon-cards' class="swiper-container">
                     <div class="swiper-wrapper">
-                        <!-- poke-card 
-                            v-for="pokemon in first_gen_pokemon"
-                            v-bind:key="pokemon.id"
-                            v-bind:pokemon="pokemon"> 
-                        </poke-card -->
-                        
-                        <div v-for="pokemon in first_gen_pokemon" class="swiper-slide">
-                            <div class="pokecard vertical-margin-40px col-sm-4">
-                                <div v-if='pokemon.loaded' class="card">
-                                    <img class="card-img-top" :src="pokemon.sprites.front_default" :alt="pokemon.name">
-                                    <div class="card-body">
-                                        <h5 class="card-title pokemon-name">#{{ pokemon.id }} {{ pokemon.name }}</h5>                                 
-                                        <div class="poke-type grass-type"><b class="poke-type">Grass</b></div>
-                                        <div class="poke-type poison-type"><b class="poke-type">Poison</b></div>                        
-                                        <p class="card-text pokemon-description">{{ pokemon.description }}</p>                                    
-                                        <div class="text-center"><a href="#" class="btn btn-primary">More Info</a></div>
-                                    </div>                            
-                                </div>
-                                <div v-else class="card">                            
-                                    <div class="d-flex justify-content-center">
-                                        <div class="spinner-grow text-primary" role="status">
-                                            <span class="sr-only">Loading...</span>
-                                        </div>  
-                                    </div>
-                                </div>                                
-                            </div>                                
-                        </div>                        
-                        
+                       <pokemon-listview-card v-for="pokemon in first_gen_pokemon" v-bind:key="pokemon.id" v-bind:pokemon='pokemon'></pokemon-listview-card>
                     </div>
                     <div class="swiper-button-prev"></div>
                     <div class="swiper-button-next"></div>

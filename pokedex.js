@@ -1,26 +1,14 @@
-/* Vue.component('poke-card', {
-    props: ['pokemon'], 
-    template: ` 
-            <div class="swiper-slide">
-                <div class="pokecard vertical-margin-40px col-sm-4">
-                    <div class="card">
-                        <img class="card-img-top" :src="pokemon.sprites.front_default" :alt="pokemon.name">
-                        <div class="card-body">
-                            <h5 class="card-title pokemon-name">#{{ pokemon.id }} {{ pokemon.name }}</h5>                                 
-                            <div class="poke-type grass-type"><b class="poke-type">Grass</b></div>
-                            <div class="poke-type poison-type"><b class="poke-type">Poison</b></div>                        
-                            <p class="card-text pokemon-description">{{ pokemon.description }}</p>                                    
-                            <div class="text-center"><a href="#" class="btn btn-primary">More Info</a></div>
-                        </div>                            
-                    </div>
-                </div>                                    
-            </div>
-            `,
-});*/ 
+let pokemon_listview_card_component = {
+    props: ['pokemon'],
+    template: '#pokemon-listview-card',
+};
 
 var pokemon_cards_vm = new Vue({ 
-
     el: '#pokemon-cards',
+
+    components: {
+        'pokemon-listview-card': pokemon_listview_card_component,
+    },
 
     data: {
         // Carousel effect, show only 
@@ -37,17 +25,6 @@ var pokemon_cards_vm = new Vue({
     created: function() {    
         this.ajax_get_all_pokemon_listings();   
     },
-
-    /* computed: {
-        // Filters our all undefined pokemon while the data is loading asynchronously. Our ajax request below needs to fill the array in a random order and a lot of null ids are found in the first_gen_pokemon array prior to all data loading. The solution is to filter them out with this computed value.
-         ready_to_render_pokemon: function() {
-            //var in_frame_boundary = this.in_frame_boundary;
-
-            return this.first_gen_pokemon.filter(function(data) {                 
-                return data.id != undefined;// && in_frame_boundary(data.id);  // only return the items that are ready to load and are in the current frame.
-            });
-        }, 
-    }, */
 
     methods: {
         ajax_get_all_pokemon_listings: function() {
