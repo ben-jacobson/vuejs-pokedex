@@ -16,7 +16,7 @@
 
 <body>
 
-    <script type='text/x-template' id='pokemon-listview-card'>
+    <script type='text/x-template' id='pokemon-listview-card-template'>
         <div class="swiper-slide">
             <div class="pokecard vertical-margin-40px col-sm-4">
                 <div v-if='pokemon.loaded' class="card">
@@ -26,7 +26,7 @@
                         <div class="poke-type grass-type"><b class="poke-type">Grass</b></div>
                         <div class="poke-type poison-type"><b class="poke-type">Poison</b></div>                        
                         <p class="card-text pokemon-description">{{ pokemon.description }}</p>                                    
-                        <div class="text-center"><a href="#" class="btn btn-primary">More Info</a></div>
+                        <div class="text-center"><button @click='more_info' class="btn btn-primary">More Info</button></div>
                     </div>                            
                 </div>
                 <div v-else class="card">                            
@@ -40,51 +40,60 @@
         </div> 
     </script>
 
-    <nav class="navbar navbar-expand-lg">
-        <h1 class='white-header'>Pokedex</h1>
-    </nav>
-
-    <div class="container">
-        <div id='infobox' class="row">
-            <div class="infobox vertical-margin-40px col-sm-12">
-                <div class='row'>
-                    <div class='col-sm-4'>
-                        <img class='infobox-img vertical-margin-40px'
-                            src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png'>
-                    </div>
-                    <div class='col-sm-8 infobox-description vertical-margin-40px'>
-                        <table class='pokemon-stats'>
-                            <tr>
-                                <td class='stat-labels'>Id</td>
-                                <td class='stat-labels'>Type</tdclass='stat-labels'>
-                                <td class='stat-labels'>Weight</td class='stat-labels'>
-                                <td class='stat-labels'>Height</td class='stat-labels'>
-                                <td class='stat-labels'>Abilities</td>
-                            </tr>
-                            <tr>
-                                <td class='stat-text'>#001</td class='stat-text'>
-                                <td class='stat-text'>Grass, Poison</td class='stat-text'>
-                                <td class='stat-text'>5lb</td>
-                                <td class='stat-text'>2'3"</td class='stat-text'>
-                                <td class='stat-text'>Overgrow, Chlorophyll</td>
-                            </tr>
-                        </table>
-
-                        <h2 class="pokemon-name">Bulbasaur</h2>
-                        <p>
-                            Bulbasaur can be seen napping in bright sunlight. There is a seed on its back. By soaking up
-                            the sun’s rays, the seed grows progressively larger
-                        </p>
-
+    <script type='text/x-template' id='pokemon-detailview-template'>
+        <div class='row'>
+            <div class='col-sm-4'>
+                <img v-if='pokemon.loaded' class='infobox-img vertical-margin-40px' :src="pokemon.sprites.front_default" :alt="pokemon.name" />
+                <div v-else>
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-grow text-primary" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>  
                     </div>
                 </div>
+            </div>
+            <div class='col-sm-8 infobox-description vertical-margin-40px'>
+                <table class='pokemon-stats'>
+                    <tr>
+                        <td class='stat-labels'>Id</td>
+                        <td class='stat-labels'>Type</td>
+                        <td class='stat-labels'>Weight</td>
+                        <td class='stat-labels'>Height</td>
+                        <td class='stat-labels'>Abilities</td>
+                    </tr>
+                    <tr>
+                        <td class='stat-text'>#{{ pokemon.id }}</td>
+                        <td class='stat-text'>{{ pokemon.types }}</td>
+                        <td class='stat-text'>{{ pokemon.weight }} kg</td>
+                        <td class='stat-text'>{{ pokemon.height }} cm</td>
+                        <td class='stat-text'>{{ pokemon.abilities }}</td>
+                    </tr>
+                </table>
+
+                <h2 class="pokemon-name">{{ pokemon.name }}</h2>
+                <p>
+                    {{ pokemon.description }}
+                </p>
+
+            </div>
+        </div>
+    </script>
+
+    <nav class="navbar navbar-expand-lg">
+        <h1 class='white-header'>Vue JS Pokedex</h1>
+    </nav>
+
+    <div id='pokedex' class="container">
+        <div id='infobox' class="row">
+            <div class="infobox vertical-margin-40px col-sm-12">
+                <pokemon-detailview v-bind:pokemon='first_gen_pokemon[pokemon_currently_viewing - 1]'></pokemon-detailview>
             </div>
         </div>
         <div id='cards' class="row">
             <div class="listbox col-sm-12">
                 <div id='pokemon-cards' class="swiper-container">
                     <div class="swiper-wrapper">
-                       <pokemon-listview-card v-for="pokemon in first_gen_pokemon" v-bind:key="pokemon.id" v-bind:pokemon='pokemon'></pokemon-listview-card>
+                       <pokemon-listview-card v-for="pokemon in first_gen_pokemon" v-bind:key="pokemon.id - 1" v-bind:pokemon='pokemon'></pokemon-listview-card>
                     </div>
                     <div class="swiper-button-prev"></div>
                     <div class="swiper-button-next"></div>
