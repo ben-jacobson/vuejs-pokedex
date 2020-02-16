@@ -1,4 +1,4 @@
-/* Some help functions */ 
+/* Some generic, non app specific helper functions */ 
 function capitalize_first_letter(text) {
     // capitalize the first letter of a word
     return text.charAt(0).toUpperCase() + text.substring(1);  
@@ -67,42 +67,52 @@ var pokemon_cards_vm = new Vue({
 
     data: {        
         // Pokemon data source
-        max_pokemon: 151,  // first gen is the best gen!        
-        api_endpoint: 'https://pokeapi.co/api/v2/pokemon/', // append with ID        
+        max_pokemon: 151,  // first gen is the best gen!  
         first_gen_pokemon: [],  // to store all first 151 gen pokemon
-        pokemon_currently_viewing: 10,
+        pokemon_currently_viewing: 1,
     },   
 
     created: function() {    
         // there is no API endpoint for retrieving a list of pokemon, you need to run individual requests which seems silly. However, the rate limiter is generous enough and I haven't seen any issues as a result
         for (let i = 1; i <= this.max_pokemon; i++) {    
             Vue.set(this.first_gen_pokemon, i - 1, {id: i, loaded: false}); // pre-set an unloaded value
-            this.ajax_request_pokemon_data(i);
+            this.ajax_request_and_store_pokemon_data(i);
         }       
     },
     methods: {
-        ajax_request_pokemon_data: function(id) {
+        find_and_clean_pokemon_description: function(pokemon_species_data) {
+            let description = pokemon_species_data['flavor_text_entries'].filter(function (entry) {
+                if (entry['language']['name'] == 'en' && entry['version']['name'] == 'red') {
+                    return(entry['flavor_text']);
+                }
+            });
+            return description[0]['flavor_text'].replace(/(\r\n|\n|\r)/gm, ' ');
+        },
+
+        ajax_request_and_store_pokemon_data: function(id) {
+            /* 
+                AJAX request for remaining pokemon data
+            */
             var vm = this;  // set this so that the promise has its own scoped copy of vm to work with after function has ended.                              
+            axios.all([
+                    axios.get('https://pokeapi.co/api/v2/pokemon/' + id + '/'),
+                    axios.get('https://pokeapi.co/api/v2/pokemon-species/' + id + '/'),
+            ]).then(axios.spread(function(pokemon_data, pokemon_species_data) {
+                // extract the description from the pokemon_species api call response, then cascade it into the pokemon_data
+                pokemon_data.data.description = vm.find_and_clean_pokemon_description(pokemon_species_data.data);
+                return(pokemon_data.data);                
+            })).then(function(pokemon_data) {
+                // then make some changes to the data before loading into the array.
+                pokemon_data.name = capitalize_first_letter(pokemon_data.name);
+                pokemon_data.weight = pokemon_data.weight / 10; // weight is originally given in hectograms (100 grams)
+                pokemon_data.height = pokemon_data.height * 10;      // height is originally given in decimeters
+                pokemon_data.types = json_property_to_string(pokemon_data.types, "type", "name");
+                pokemon_data.abilities = json_property_to_string(pokemon_data.abilities, "ability", "name");  
 
-            // initiate the Ajax request. Returns the promise
-            var pokemon_data_promise = axios.get(this.api_endpoint + id + '/').then(function (response) {
-                return response.data;
-            }).catch(function (error) {
-                console.log(error);
-            }); 
-
-            // async to update the pokemon_data array, and ensure they are in the correct order. 
-            pokemon_data_promise.then(function(data) {
-                // make some changes to the data before loading into the array.
-                data.name = capitalize_first_letter(data.name);
-                data.weight = data.weight / 10; // weight is originally given in hectograms (100 grams)
-                data.height = data.height * 10;      // height is originally given in decimeters
-                data.types = json_property_to_string(data.types, "type", "name");
-                data.abilities = json_property_to_string(data.abilities, "ability", "name");  
-                data.description = "Placeholder Description"; 
-                data.loaded = true; // set a loaded flag
-                Vue.set(vm.first_gen_pokemon, data.id - 1, data);   // a common gotcha, vue cannot be reactive to changes to array array[index] = value; 
-            });         
+                // set a load flag and store it
+                pokemon_data.loaded = true; 
+                Vue.set(vm.first_gen_pokemon, pokemon_data.id - 1, pokemon_data);   // a common gotcha, vue cannot be reactive to changes to array array[index] = value; 
+            });
         },
     },    
 });
