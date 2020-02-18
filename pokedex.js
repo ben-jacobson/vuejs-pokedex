@@ -43,9 +43,8 @@ let pokemon_listview_card_component = {
     template: '#pokemon-listview-card-template',
 
     methods: {
-        more_info: function(e) {
-            console.log(this.pokemon.id);
-            // emit an event with the id as payload.
+        more_info: function() {
+            this.$emit('update-detail-view', this.pokemon.id);
         },
     }
 };
@@ -69,10 +68,10 @@ var pokemon_cards_vm = new Vue({
         // Pokemon data source
         max_pokemon: 151,  // first gen is the best gen!  
         first_gen_pokemon: [],  // to store all first 151 gen pokemon
-        pokemon_currently_viewing: 1,
+        viewing_id: 1,
     },   
 
-    created: function() {    
+    created: function() {   
         // there is no API endpoint for retrieving a list of pokemon, you need to run individual requests which seems silly. However, the rate limiter is generous enough and I haven't seen any issues as a result
         for (let i = 1; i <= this.max_pokemon; i++) {    
             Vue.set(this.first_gen_pokemon, i - 1, {id: i, loaded: false}); // pre-set an unloaded value
@@ -80,6 +79,10 @@ var pokemon_cards_vm = new Vue({
         }       
     },
     methods: {
+        update_detail_view: function(id) {
+            this.viewing_id = id; 
+        },
+
         find_and_clean_pokemon_description: function(pokemon_species_data) {
             let description = pokemon_species_data['flavor_text_entries'].filter(function (entry) {
                 if (entry['language']['name'] == 'en' && entry['version']['name'] == 'red') {

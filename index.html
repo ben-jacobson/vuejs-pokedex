@@ -86,14 +86,14 @@
     <div id='pokedex' class="container">
         <div id='infobox' class="row">
             <div class="infobox vertical-margin-40px col-sm-12">
-                <pokemon-detailview v-bind:pokemon='first_gen_pokemon[pokemon_currently_viewing - 1]'></pokemon-detailview>
+                <pokemon-detailview v-bind:pokemon='first_gen_pokemon[viewing_id - 1]'></pokemon-detailview>
             </div>
         </div>
         <div id='cards' class="row">
             <div class="listbox col-sm-12">
                 <div id='pokemon-cards' class="swiper-container">
                     <div class="swiper-wrapper">
-                       <pokemon-listview-card v-for="pokemon in first_gen_pokemon" v-bind:key="pokemon.id - 1" v-bind:pokemon='pokemon'></pokemon-listview-card>
+                       <pokemon-listview-card @update-detail-view='update_detail_view' v-for="pokemon in first_gen_pokemon" v-bind:key="pokemon.id - 1" v-bind:pokemon='pokemon'></pokemon-listview-card>
                     </div>
                     <div class="swiper-button-prev"></div>
                     <div class="swiper-button-next"></div>
