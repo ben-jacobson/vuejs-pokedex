@@ -69,6 +69,7 @@ var pokemon_cards_vm = new Vue({
         max_pokemon: 151,  // first gen is the best gen!  
         first_gen_pokemon: [],  // to store all first 151 gen pokemon
         viewing_id: 1,
+        types: ['normal', 'fighting', 'flying', 'poison', 'ground', 'rock', 'bug', 'ghost', 'fire', 'water', 'grass', 'electric', 'psychic', 'ice', 'dragon'],
     },   
 
     created: function() {   
@@ -110,8 +111,8 @@ var pokemon_cards_vm = new Vue({
                 pokemon_data.weight = pokemon_data.weight / 10; // weight is originally given in hectograms (100 grams)
                 pokemon_data.height = pokemon_data.height * 10;      // height is originally given in decimeters
                 pokemon_data.types = json_property_to_string(pokemon_data.types, "type", "name");
-                pokemon_data.abilities = json_property_to_string(pokemon_data.abilities, "ability", "name");  
-
+                pokemon_data.abilities = json_property_to_string(pokemon_data.abilities, "ability", "name");
+                
                 // set a load flag and store it
                 pokemon_data.loaded = true; 
                 Vue.set(vm.first_gen_pokemon, pokemon_data.id - 1, pokemon_data);   // a common gotcha, vue cannot be reactive to changes to array array[index] = value; 

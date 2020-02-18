@@ -23,9 +23,9 @@
                     <img class="card-img-top" :src="pokemon.sprites.front_default" :alt="pokemon.name">
                     <div class="card-body">
                         <h5 class="card-title pokemon-name">#{{ pokemon.id }} {{ pokemon.name }}</h5>                                 
-                        <div class="poke-type grass-type"><b class="poke-type">Grass</b></div>
-                        <div class="poke-type poison-type"><b class="poke-type">Poison</b></div>                        
-                        <p class="card-text pokemon-description">{{ pokemon.description }}</p>                                    
+                        <div v-if='pokemon.types.includes("Grass")' class="poke-type grass-type"><b class="poke-type">Grass</b></div>
+                        <div v-if='pokemon.types.includes("Poison")' class="poke-type poison-type"><b class="poke-type">Poison</b></div>                        
+                        <p class="card-text pokemon-description"></p>                                    
                         <div class="text-center"><button @click='more_info' class="btn btn-primary">More Info</button></div>
                     </div>                            
                 </div>
