@@ -66,6 +66,17 @@ Vue.filter('capitalize', function (text) {
     return text.charAt(0).toUpperCase() + text.substring(1);  
 }); 
 
+Vue.filter('pad_digits', function(number, length) { // displays a number with leading zeros. e,g input of 1 outputs 001
+    let number_string = String(number);
+    
+    // prepend the number string with a zero until the length is correct
+    while (number_string.length < length) {
+        number_string = '0' + number_string; 
+    }
+    
+    return number_string;
+});
+
 /* Our Vue object */
 
 var pokemon_cards_vm = new Vue({ 

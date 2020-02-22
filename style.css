@@ -15,8 +15,6 @@ p, h1, h2, h3, h4, h4, h5, h6 {
 
 p {}
 
-h1, h2, h3, h4, h4, h5, h6 {}
-
 h1.white-header {
     color: #FFFFFF;
     font-size: 2em;
@@ -127,7 +125,7 @@ div.poke-type {
     margin-top: 4px;
 }
 
-div.normal      { background: #a4acaf; }
+div.normal      { background: #7a8083; }
 div.fighting    { background: #d56723; } 
 div.flying      { background: linear-gradient(180deg, #3dc7ef 50%, #bdb9b8 50%); }
 div.poison      { background: #A040A0; }
@@ -138,7 +136,7 @@ div.ghost       { background: #7b62a3; }
 div.fire        { background: #fd7d24; }
 div.water       { background: #4592c4; }
 div.grass       { background: #78C850; }
-div.electric    { background: #eed535; }
+div.electric    { background: #c9b42c; }
 div.psychic     { background: #f366b9; }
 div.ice         { background: #51c4e7; }
 div.dragon      { background: linear-gradient(180deg, #53a4cf 50%, #f16e57 50%); }
