@@ -22,9 +22,8 @@
                 <div v-if='pokemon.loaded' class="card">
                     <img class="card-img-top" :src="pokemon.sprites.front_default" :alt="pokemon.name">
                     <div class="card-body">
-                        <h5 class="card-title pokemon-name">#{{ pokemon.id }} {{ pokemon.name }}</h5>                                 
-                        <div v-if='pokemon.types.includes("Grass")' class="poke-type grass-type"><b class="poke-type">Grass</b></div>
-                        <div v-if='pokemon.types.includes("Poison")' class="poke-type poison-type"><b class="poke-type">Poison</b></div>                        
+                        <h5 class="card-title pokemon-name">#{{ pokemon.id }} {{ pokemon.name | capitalize }}</h5>   
+                        <pokemon-type-badge v-for="type in pokemon.types" v-bind:key="type.type.name" v-bind:type='type.type.name'></pokemon-type-badge>
                         <p class="card-text pokemon-description"></p>                                    
                         <div class="text-center"><button @click='more_info' class="btn btn-primary">More Info</button></div>
                     </div>                            
@@ -40,8 +39,15 @@
         </div> 
     </script>
 
+    <script type='text/x-template' id='pokemon-type-badge-template'>
+        <!--div v-if='pokemon.types.includes("Grass")' class="poke-type grass-type"><b class="poke-type">Grass</b></div>
+        <div v-if='pokemon.types.includes("Poison")' class="poke-type poison-type"><b class="poke-type">Poison</b></div -->
+
+        <div class="poke-type" v-bind:class="type"><b class="poke-type">{{ type | capitalize }}</b></div>
+    </script>
+
     <script type='text/x-template' id='pokemon-detailview-template'>
-        <div class='row'>
+        <div v-if='pokemon.loaded'class='row'>
             <div class='col-sm-4'>
                 <img v-if='pokemon.loaded' class='infobox-img vertical-margin-40px' :src="pokemon.sprites.front_default" :alt="pokemon.name" />
                 <div v-else>
@@ -63,14 +69,14 @@
                     </tr>
                     <tr>
                         <td class='stat-text'>#{{ pokemon.id }}</td>
-                        <td class='stat-text'>{{ pokemon.types }}</td>
+                        <td class='stat-text'>{{ pokemon.types_string }}</td>
                         <td class='stat-text'>{{ pokemon.weight }} kg</td>
                         <td class='stat-text'>{{ pokemon.height }} cm</td>
                         <td class='stat-text'>{{ pokemon.abilities }}</td>
                     </tr>
                 </table>
 
-                <h2 class="pokemon-name">{{ pokemon.name }}</h2>
+                <h2 class="pokemon-name">{{ pokemon.name | capitalize }}</h2>
                 <p>
                     {{ pokemon.description }}
                 </p>

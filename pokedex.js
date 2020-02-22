@@ -1,13 +1,7 @@
-/* Some generic, non app specific helper functions */ 
-function capitalize_first_letter(text) {
-    // capitalize the first letter of a word
-    return text.charAt(0).toUpperCase() + text.substring(1);  
-}
-
-function json_property_to_string(json_data, identifier, string_to_extract) {
+function json_property_to_string(json_data, identifier, string_to_extract, string_processor_callback = null) {
     // input a JSON array of objects, extract a chosen string from it, nested one layer down
     // e.g extract all of the types from this array and put into a comma separated string, also capitalizes first letter
-    /*  Example input JSON array
+    /*  Example input JSON array:
         [ 
             { 
                 "slot": 2, 
@@ -24,23 +18,34 @@ function json_property_to_string(json_data, identifier, string_to_extract) {
                 } 
             } 
         ]
-        Example Output "Poison, Grass"
+        Example Output String: "Poison, Grass"
     */
-   extracted_string = "";
+    let extracted_string = "";
 
-   for (let i = 0; i < json_data.length; i++) {
-       if (i != 0) {
-        extracted_string += ", "; // pop in commas
-       }
-       extracted_string += capitalize_first_letter(json_data[i][identifier][string_to_extract]);
-   }
-   return extracted_string;    
+    for (let i = 0; i < json_data.length; i++) {
+        // add in commas after the first word
+        if (i != 0) {
+            extracted_string += ", "; // pop in commas
+        }
+        // check to see if we want to process the string in any way, e.g run a capitalize_first_letter function on it
+        extracted_string += (string_processor_callback === null ? json_data[i][identifier][string_to_extract] : string_processor_callback(json_data[i][identifier][string_to_extract]));
+    }
+    return extracted_string;    
 }
 
 /* Our components */ 
+let pokemon_type_badge_component = {
+    props: ['type'],
+    template: '#pokemon-type-badge-template',
+};
+
 let pokemon_listview_card_component = {
     props: ['pokemon'],
     template: '#pokemon-listview-card-template',
+
+    components: {
+        'pokemon-type-badge': pokemon_type_badge_component,
+    },
 
     methods: {
         more_info: function() {
@@ -53,6 +58,13 @@ let pokemon_detailview_component = {
     props: ['pokemon'],
     template: '#pokemon-detailview-template',
 };
+
+/* Some helpful filters */
+
+Vue.filter('capitalize', function (text) {
+    // capitalize the first letter of the word
+    return text.charAt(0).toUpperCase() + text.substring(1);  
+}); 
 
 /* Our Vue object */
 
@@ -69,7 +81,6 @@ var pokemon_cards_vm = new Vue({
         max_pokemon: 151,  // first gen is the best gen!  
         first_gen_pokemon: [],  // to store all first 151 gen pokemon
         viewing_id: 1,
-        types: ['normal', 'fighting', 'flying', 'poison', 'ground', 'rock', 'bug', 'ghost', 'fire', 'water', 'grass', 'electric', 'psychic', 'ice', 'dragon'],
     },   
 
     created: function() {   
@@ -107,16 +118,17 @@ var pokemon_cards_vm = new Vue({
                 return(pokemon_data.data);                
             })).then(function(pokemon_data) {
                 // then make some changes to the data before loading into the array.
-                pokemon_data.name = capitalize_first_letter(pokemon_data.name);
                 pokemon_data.weight = pokemon_data.weight / 10; // weight is originally given in hectograms (100 grams)
                 pokemon_data.height = pokemon_data.height * 10;      // height is originally given in decimeters
-                pokemon_data.types = json_property_to_string(pokemon_data.types, "type", "name");
-                pokemon_data.abilities = json_property_to_string(pokemon_data.abilities, "ability", "name");
-                
+                pokemon_data.types_string = json_property_to_string(pokemon_data.types, "type", "name", Vue.filter('capitalize'));
+                pokemon_data.abilities = json_property_to_string(pokemon_data.abilities, "ability", "name", Vue.filter('capitalize'));
+            
                 // set a load flag and store it
                 pokemon_data.loaded = true; 
                 Vue.set(vm.first_gen_pokemon, pokemon_data.id - 1, pokemon_data);   // a common gotcha, vue cannot be reactive to changes to array array[index] = value; 
             });
         },
-    },    
+    }, 
 });
+
+   
